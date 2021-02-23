@@ -37,33 +37,31 @@ function binaryToDecimal(int $inputBinary): int
 
 
 #Написать функцию которая выводит первые N чисел фибоначчи
-//fibonacci(8);
-function fibonacci(int $num)
+//echo fibonacci(8);
+function fibonacci(int $num): string
 {
+    $outputNum = "";
     $prevNum = 0;
     $currNum = 1;
 
     if ($num == 0) {
         return 0;
     } elseif ($num == 1) {
-        echo $prevNum;
         return 0;
     } elseif ($num == 2) {
-        echo $prevNum;
-        echo $currNum;
-        return 0;
+        return "01";
     } else {
-        echo $prevNum;
-        echo $currNum;
+        $outputNum .= $prevNum . $currNum;
 
         for ($i = 2; $i < $num; $i++) {
             $nextNum = $currNum + $prevNum;
             $prevNum = $currNum;
             $currNum = $nextNum;
-
-            echo $nextNum;
+            $outputNum .= $nextNum;
         }
     }
+
+    return $outputNum;
 }
 
 
@@ -87,7 +85,7 @@ function exponentiation(int $num, $exponent): int
 
 #Написать функцию которая вычисляет входит ли IP-адрес в диапазон
 # указанных IP-адресов. Вычислить для версии ipv4.
-//echo isInRange("0.0.0.0", "255.255.255.255"  , "255.255.0.1");
+//echo isInRange("0.0.0.0", "255.255.255.255", "255.255.0.1");
 function isInRange($startIp, $endIp, $searchedIp): bool
 {
     $start = ip2long($startIp);
@@ -97,11 +95,9 @@ function isInRange($startIp, $endIp, $searchedIp): bool
     if (empty($startIp) || empty($endIp) || empty($searched)) {
         echo "<p>Invalid IP, please try again</p>";
         return 0;
-    } elseif ($searched > $start && $searched < $end) {
-        return true;
-    } else {
-        return false;
     }
+
+    return $searched > $start && $searched < $end;
 }
 
 
@@ -317,24 +313,23 @@ function binaryToDecimalRecursion(int $inputBinary, $marker = 0, $outputNumber =
 
 
 #Написать функцию которая выводит первые N чисел фибоначчи (Рекурсия)
-//fibonacciRecursion(8);
-function fibonacciRecursion(int $num, $prevNum = 0, $currNum = 1)
+//echo fibonacciRecursion(8);
+function fibonacciRecursion(int $num, $prevNum = 0, $currNum = 1, $outputNum = ""): string
 {
     $nextNum = $currNum + $prevNum;
 
     if ($currNum > $num) {
-        return 0;
+        return $outputNum;
     }
     if ($prevNum == 0) {
-        echo $prevNum;
-        echo $currNum;
+        $outputNum .= $prevNum . $currNum;
     }
 
     $prevNum = $currNum;
     $currNum = $nextNum;
+    $outputNum .= $nextNum;
 
-    echo $nextNum;
-    fibonacciRecursion($num, $prevNum, $currNum);
+    return fibonacciRecursion($num, $prevNum, $currNum, $outputNum);
 }
 
 
