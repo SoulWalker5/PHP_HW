@@ -6,7 +6,7 @@ namespace controllers;
 use exceptions\ExportException;
 use exceptions\ImportException;
 
-class ProductExportController extends Controller
+class ExportController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,6 @@ class ProductExportController extends Controller
     public function export($expFormat)
     {
         $this->loadModel("product", "Product");
-        $this->loadModel("productExport", "ProductExport");
 
         try {
             $products = $this->product->getAll();
@@ -24,10 +23,11 @@ class ProductExportController extends Controller
             Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
         }
 
-        $calledMethode = "export" . mb_strtoupper($expFormat);
+        $service = mb_strtoupper($expFormat) . "ExportService";
+        $this->loadService("$service", "$service");
 
         try {
-            $exportedFileName = $this->productExport->$calledMethode($products);
+            $exportedFileName = $this->$service->export($products);
         } catch (ExportException $e) {
             Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
         }
@@ -36,5 +36,4 @@ class ProductExportController extends Controller
         $this->data("template", "product/export");
         $this->returnView("/index");
     }
-
 }

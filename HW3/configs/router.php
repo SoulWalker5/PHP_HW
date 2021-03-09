@@ -15,7 +15,7 @@ return [
     ],
     "export/(.*)" => [
         "GET" => [
-            "controller" => "\\controllers\\ProductExportController",
+            "controller" => "\\controllers\\ExportController",
             "action" => "export",
             "params" => "$1"
         ],

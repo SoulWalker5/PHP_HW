@@ -12,6 +12,11 @@ class Controller
     public function __construct()
     {
     }
+    public function loadService($alias, $title)
+    {
+        $service = "\\services\\" . $title;
+        $this->$alias = new $service();
+    }
 
     public function loadModel($alias, $title)
     {
