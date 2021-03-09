@@ -54,7 +54,7 @@ class Logger
     {
         $logName = date('Y-m-d H:i:s') . " ; " . Logger::$levels[$level] . " ; " . $message . ob_get_clean() . PHP_EOL;
         $messageToWrite = $logName . $this->contextStringify($messageInfo);
-        file_put_contents(__DIR__ . "/Logs/" . "$logName.txt", $messageToWrite, FILE_APPEND);
+        file_put_contents(__DIR__ . "/logs/" . "$logName.txt", $messageToWrite, FILE_APPEND);
     }
 
     public function contextStringify($messageInfo = [])

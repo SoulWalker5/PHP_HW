@@ -4,7 +4,7 @@ require_once("ClassLoader.php");
 
 ClassLoader::getInstance()->register();
 ClassLoader::getInstance()->load("functions");
-ClassLoader::getInstance()->load("Exceptions/ArgumentNullException");
+ClassLoader::getInstance()->load("exceptions/ArgumentNullException");
 
 try {
     echo \functions\exponentiation(2,null) . "\n";
