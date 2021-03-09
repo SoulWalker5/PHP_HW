@@ -76,7 +76,7 @@ function exponentiation(int $num, $exponent)
 {
     $outputNum = $num;
     if (!$exponent) {
-        throw new \ArgumentNullException("argument cannot be of type string");
+        throw new \ArgumentNullException("Argument cannot be of type string");
     }
     if ($exponent === 0) {
         return 1;
@@ -104,8 +104,7 @@ function isInRange($startIp, $endIp, $searchedIp): bool
     $searched = ip2long($searchedIp);
 
     if (empty($startIp) || empty($endIp) || empty($searched)) {
-        echo "<p>Invalid IP, please try again</p>";
-        return 0;
+        throw new \ArgumentException("Argument is not an Ip address ");
     }
 
     return $searched > $start && $searched < $end;
