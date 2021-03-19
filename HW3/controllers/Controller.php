@@ -12,6 +12,7 @@ class Controller
     public function __construct()
     {
     }
+
     public function loadService($alias, $title)
     {
         $service = "\\services\\" . $title;
@@ -36,5 +37,11 @@ class Controller
             \extract($this->data);
             require_once($path);
         }
+    }
+
+    public function redirectTo($route)
+    {
+        header("Location: $route");
+        exit();
     }
 }

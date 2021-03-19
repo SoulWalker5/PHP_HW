@@ -25,27 +25,43 @@
                     <a class="nav-link" href="/">Abstract Products</a>
                 </h4>
             </nav>
-            <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link active" href="/">Home</a>
-                <a class="nav-link" href="/products">Products</a>
-                <ul class="nav" style="border: none; margin-left: 1rem;">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown"
-                           aria-expanded="false">Export</a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown01" data-bs-popper="none">
-                            <li><a class="dropdown-item" href="/export/csv/">CSV</a></li>
-                            <li><a class="dropdown-item" href="/export/json/">JSON</a></li>
-                            <li><a class="dropdown-item" href="/export/xml/">XML</a></li>
-                        </ul>
-                    </li>
-                </ul>
 
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <?php if (isset($_SESSION['loggedUser']) && $_SESSION['role'] == 'admin') { ?>
+                    <a class="nav-link" href="/orders">Orders by Products</a>
+                    <ul class="nav" style="border: none; margin-left: 1rem;">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown"
+                               aria-expanded="false">Export</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown01" data-bs-popper="none">
+                                <li><a class="dropdown-item" href="/export/csv/">CSV</a></li>
+                                <li><a class="dropdown-item" href="/export/json/">JSON</a></li>
+                                <li><a class="dropdown-item" href="/export/xml/">XML</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                <?php } ?>
+                <a class="nav-link" href="/cart">Cart</a>
+                <a class="nav-link" href="/products">Products</a>
+
+                <?php if (isset($_SESSION['loggedUser'])) { ?>
+                    <a class="nav-link" href="/logout">Logout</a>
+                <?php } else { ?>
+                    <a class="nav-link" href="/login">Login</a>
+                <?php } ?>
             </nav>
+
         </div>
     </header>
 
     <main role="main" class="inner cover">
-        <?php if (isset($template)) require_once($template . ".php"); ?>
+        <?php if (isset($template))
+            require_once($template . ".php");
+        else { ?>
+            <div class="row">
+                <h1>This is home page</h1>
+            </div>
+        <?php } ?>
     </main>
 
     <footer class="mastfoot mt-auto">

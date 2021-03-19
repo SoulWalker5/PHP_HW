@@ -44,14 +44,19 @@ class Router
 
                 $object = new $controller();
 
+                session_start();
                 call_user_func_array([$object, $action], $params);
 
                 return;
             }
         }
 
-        header("Location: views/404page.php");
-        exit();
+        $controller = "\\controllers\\HomeController";
+
+        $object = new $controller();
+
+        call_user_func_array([$object, "page404"], $params = []);
+
     }
 
     private function __sleep()

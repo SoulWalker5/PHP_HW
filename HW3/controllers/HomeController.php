@@ -13,4 +13,14 @@ class HomeController extends Controller
     {
         $this->returnView("index");
     }
+
+    public function page404()
+    {
+        $this->returnView("404page");
+    }
+
+    public function problem()
+    {
+        $this->returnView("error");
+    }
 }

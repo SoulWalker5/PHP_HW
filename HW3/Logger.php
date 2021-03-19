@@ -61,4 +61,14 @@ class Logger
     {
         return !empty($messageInfo) ? json_encode($messageInfo) : null;
     }
+
+    private function __sleep()
+    {
+
+    }
+
+    private function __wakeup()
+    {
+
+    }
 }
