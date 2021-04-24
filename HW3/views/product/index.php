@@ -1,6 +1,11 @@
 <div class="row">
     <h1><?php if (isset($head)) echo $head ?></h1>
 </div>
+<?php if ($_SESSION['role'] == 'admin') { ?>
+    <div class="row">
+        <a href="product/create" class="btn btn-success" role="button">Add new product</a>
+    </div>
+<?php } ?>
 <table class="table personal-task text-white">
     <thead>
     <tr>
@@ -11,17 +16,15 @@
             </th>
 
         <?php } ?>
-        <?php if (isset($_SESSION['loggedUser'])) { ?>
             <th>
                 Operations
             </th>
-        <?php } ?>
     </tr>
     </thead>
 
     <tbody>
     <?php foreach ($products as $item) { ?>
-        <form method="POST">
+        <form id="<?php echo $item['id'] . $item['title'] ?>" method="POST">
             <tr>
                 <?php foreach ($item as $key => $value) { ?>
 
@@ -29,24 +32,27 @@
                         <?php if ($key == 'id') { ?>
                             <input name="id" hidden value="<?php echo $value; ?>">
                         <?php } ?>
-                        <?php echo $value; ?>
+                        <input <?php if($key == 'price' || $key == 'amount'){ ?>
+                            type="number" min="1" max="1000"
+                        <?php } else { ?>
+                            type="text"
+                                <?php  } ?>
+                            value="<?php echo $value; ?>"
+                            <?php if(!$_SESSION['role'] == 'admin') {?> disabled <?php }?> >
                     </td>
 
                 <?php } ?>
-                <?php if (isset($_SESSION['loggedUser'])) { ?>
                     <td style="padding-left: 15px">
-                        <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'user') { ?>
                             <a href="product/details/<?php echo $item['id'] ?>"
                                class="btn btn-primary" role="button">Details</a>
-                            <button formaction="/cart/add" class="btn btn-primary" role="button" type="submit">Add
-                            </button>
 
-                        <?php } ?>
+                        <?php if (isset($_SESSION['loggedUser'])) { ?>
+                        <button formaction="/cart/add" class="btn btn-primary" role="button" type="submit">Add
+                        </button>
+
                         <?php if ($_SESSION['role'] == 'admin') { ?>
-                            <a href="product/update/<?php echo $item['id'] ?>"
-                               class="btn btn-warning" role="button">Edit</a>
-                            <a href="product/delete/<?php echo $item['id'] ?>"
-                               class="btn btn-danger" role="button">Delete</a>
+                            <button id="editProduct" class="btn btn-warning">Edit</button>
+                            <button id="deleteProduct" class="btn btn-danger">Delete</button>
                         <?php } ?>
                     </td>
                 <?php } ?>

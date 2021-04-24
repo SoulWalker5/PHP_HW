@@ -165,4 +165,57 @@ return [
             "params" => "$1"
         ],
     ],
+    "ajax/addtocart" => [
+        "POST" => [
+            "controller" => "\\controllers\\CartController",
+            "action" => "addAction",
+        ],
+    ],
+    "ajax/create" => [
+        "POST" => [
+            "controller" => "\\controllers\\ProductController",
+            "action" => "createAction",
+        ],
+    ],
+    "ajax/edit" => [
+        "POST" => [
+            "controller" => "\\controllers\\ProductController",
+            "action" => "editAction",
+        ],
+    ],
+    "ajax/delete" => [
+        "POST" => [
+            "controller" => "\\controllers\\ProductController",
+            "action" => "deleteAction",
+        ],
+    ],
+    "ajax/makeorder" => [
+        "POST" => [
+            "controller" => "\\controllers\\OrderController",
+            "action" => "makeOrderAction",
+        ],
+    ],
+    "ajax/setquantity" => [
+        "POST" => [
+            "controller" => "\\controllers\\CartController",
+            "action" => "setQuantityAction",
+        ],
+    ],
+    "ajax/deletefromcart" => [
+        "POST" => [
+            "controller" => "\\controllers\\CartController",
+            "action" => "deleteAction",
+        ],
+    ],
+    "ajax/lessquantity" => [
+        "POST" => [
+            "controller" => "\\controllers\\CartController",
+            "action" => "lessQuantityAction",
+        ],
+    ],"ajax/morequantity" => [
+        "POST" => [
+            "controller" => "\\controllers\\CartController",
+            "action" => "moreQuantityAction",
+        ],
+    ],
 ];

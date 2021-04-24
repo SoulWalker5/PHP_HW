@@ -21,6 +21,32 @@ class OrderController extends Controller
         $this->productRepository = new ProductRepository();
     }
 
+    public function makeOrderAction()
+    {
+        $model = $_SESSION['cart'];
+        $orderNumber = rand(10000, 20000);
+
+        for ($i = 0, $count = count($model); $i < $count; $i++) {
+            $model[$i] += ['user_id' => $_SESSION['user_id']];
+            $model[$i] += ['number' => $orderNumber];
+        }
+
+        if (isset($model)) {
+            try {
+                $this->orderRepository->create($model);
+                $this->productRepository->updateAmount($model);
+                unset($_SESSION['cart']);
+            } catch (PDOException $e) {
+                Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
+
+                $this->redirectTo('problem');
+            }
+        }
+
+        return $this->response('Order was made', 200);
+    }
+
+
     public function index()
     {
         if ($_SESSION['role'] != 'admin') {

@@ -18,6 +18,97 @@ class CartController extends Controller
         $this->repository = new ProductRepository();
     }
 
+    public function addAction()
+    {
+        $model = $_POST;
+
+        if (isset($model['id'])) {
+            try {
+                $product = $this->repository->findById($model['id']);
+            } catch (PDOException $e) {
+                Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
+
+                $this->redirectTo('problem');
+            }
+
+            $product += ['quantity' => 1];
+
+            if (!in_array($product, $_SESSION['cart'])) {
+
+                if (isset($_SESSION['loggedUser']) && isset($_SESSION['cart'])) {
+                    array_push($_SESSION['cart'], $product);
+                } elseif (isset($_SESSION['loggedUser']) && !isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [$product];
+                } else {
+                    $this->redirectTo('/login');
+                }
+            }else{
+                return $this->response('Product already in cart.', 400);
+            }
+
+        }
+
+        return $this->response('Added to cart.', 200);
+    }
+
+    public function setQuantityAction()
+    {
+        $model = $_POST;
+        $key = array_search($model['id'], array_column($_SESSION['cart'], 'id'));
+
+        if (isset($model['id'])) {
+            if (isset($_SESSION['cart'][$key])) {
+                if ($_SESSION['cart'][$key]['amount'] >= $model['quantity']) {
+                    $_SESSION['cart'][$key]['quantity'] = $model['quantity'];
+                }
+            } else {
+                $this->redirectTo('problem');
+            }
+        }
+
+        return $this->response('Quantity set', 200);
+    }
+
+    public function deleteAction()
+    {
+        $model = $_POST;
+        $key = array_search($model['id'], array_column($_SESSION['cart'], 'id'));
+
+        unset($_SESSION['cart'][$key]);
+
+        $this->response('deleted', 200);
+    }
+
+    public function lessQuantityAction()
+    {
+        $model = $_POST;
+        $key = array_search($model['id'], array_column($_SESSION['cart'], 'id'));
+
+        if (isset($model['id'])) {
+            if (isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key]['quantity'] != 1) {
+                $_SESSION['cart'][$key]['quantity'] -= 1;
+            }
+        }
+
+        $this->response($_SESSION['cart'][$key]['quantity'], 200);
+    }
+
+    public function moreQuantityAction()
+    {
+        $model = $_POST;
+        $key = array_search($model['id'], array_column($_SESSION['cart'], 'id'));
+
+        if (isset($model['id'])) {
+            if (isset($_SESSION['cart'][$key]) && $_SESSION['cart'][$key]['amount'] >= $_SESSION['cart'][$key]['quantity']) {
+                $_SESSION['cart'][$key]['quantity'] += 1;
+            } else {
+                $this->redirectTo('problem');
+            }
+        }
+
+        $this->response($_SESSION['cart'][$key]['quantity'], 200);
+    }
+
     public function index()
     {
         if (!isset($_SESSION['cart'])) {

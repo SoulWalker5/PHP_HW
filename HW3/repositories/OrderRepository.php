@@ -32,7 +32,7 @@ class OrderRepository implements RepositoryInterface
     public function create($model)
     {
         $orderModel = ['number' => $model[0]['number'], 'user_id' => $model[0]['user_id']];
-        $query = "INSERT INTO `order`(`number`, `user_id`) VALUES(:number, :user_id);";
+        $query = "INSERT INTO `orders`(`number`, `user_id`) VALUES(:number, :user_id);";
 
         $this->execute($query, $orderModel);
 

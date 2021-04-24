@@ -2,7 +2,7 @@
     <h1>Create product</h1>
 </div>
 
-<form name="createProduct" method="POST">
+<form id="create" name="createProduct" method="POST">
     <div class="form-input">
         <input type="text" name="title" class="form-control" required placeholder="Title">
     </div>
@@ -15,5 +15,5 @@
     <div class="form-input">
         <input type="text" name="description" class="form-control" placeholder="Description">
     </div>
-    <button class="btn btn-primary mt-4 signup" type="submit">Create</button>
+    <button id="createProduct" class="btn btn-primary mt-4 signup" type="submit">Create</button>
 </form>

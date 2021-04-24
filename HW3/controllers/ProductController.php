@@ -18,6 +18,69 @@ class ProductController extends Controller
         $this->repository = new ProductRepository();
     }
 
+    public function createAction()
+    {
+        $model = $_POST;
+
+        if (isset($model)) {
+            try {
+                $newproduct = $this->repository->create($model);
+                $product = $this->repository->findById($newproduct);
+            } catch (PDOException $e) {
+                Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
+
+                $this->redirectTo('/page404');
+            }
+        }
+
+        return $this->response('New product added', 200);
+    }
+
+    public function editAction()
+    {
+        if ($_SESSION['role'] != 'admin') {
+            $this->redirectTo('/');
+        }
+
+        $model = $_POST;
+
+        echo $_SESSION['cart'];
+
+        $product = $this->repository->findById($model['id']);
+
+        if (isset($model) && !in_array($product, $_SESSION['cart'])) {
+            try {
+                $this->repository->update($model);
+            } catch (PDOException $e) {
+                Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
+
+                $this->redirectTo('problem');
+            }
+            return $this->response($model, 200);
+        }
+        return $this->response('In cart, cannot update', 200);
+    }
+
+    public function deleteAction()
+    {
+        if ($_SESSION['role'] != 'admin') {
+            $this->redirectTo('/');
+        }
+
+        if ($_POST['id']) {
+            try {
+                $this->repository->delete($_POST['id']);
+            } catch (PDOException $e) {
+                Logger::getInstance()->log($e->getMessage(), Logger::ERROR, $e);
+
+                $this->redirectTo('/page404');
+            }
+        }
+
+        return $this->response('Deleted', 200);
+    }
+
+
     public function index()
     {
         try {
@@ -108,8 +171,7 @@ class ProductController extends Controller
         $this->returnView("index");
     }
 
-    public
-    function delete($id)
+    public function delete($id)
     {
         if ($_SESSION['role'] != 'admin') {
             $this->redirectTo('/');
@@ -128,8 +190,7 @@ class ProductController extends Controller
         $this->redirectTo('/products');
     }
 
-    public
-    function getUpdatePage($id)
+    public function getUpdatePage($id)
     {
         if ($_SESSION['role'] != 'admin') {
             $this->redirectTo('/');

@@ -39,6 +39,24 @@ class Controller
         }
     }
 
+    protected function response($data, $status = 500) {
+        header("HTTP/1.0 " . $status . " " . $this->requestStatus($status));
+        header('Content-type: application/json');
+        echo json_encode($data);
+        exit();
+    }
+
+    private function requestStatus($code) {
+        $status = array(
+            200 => 'OK',
+            400 => 'Error',
+            404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            500 => 'Internal Server Error',
+        );
+        return ($status[$code])?$status[$code]:$status[500];
+    }
+
     public function redirectTo($route)
     {
         header("Location: $route");

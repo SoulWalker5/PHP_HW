@@ -70,6 +70,10 @@
         </div>
     </footer>
 </div>
+
+<script>
+    <?php include 'js/ajaxRequests.js' ?>
+</script>
 </body>
 </html>
 

@@ -35,7 +35,9 @@ class ProductRepository implements RepositoryInterface
     {
         $query = "INSERT INTO `products`(`title`, `price`,`amount`, `description`) VALUES(:title, :price, :amount, :description)";
 
-        return $this->execute($query, $model);
+        $this->execute($query, $model);
+
+        return $this->db->lastInsertId();
     }
 
     public function delete($id)
@@ -50,7 +52,7 @@ class ProductRepository implements RepositoryInterface
     {
         $query = "UPDATE `products` SET `title` = :title, `price` = :price, `amount` = :amount, `description` = :description WHERE `id` = :id";
 
-        $model = ['title' => $model[0]['title'], 'price' => $model[0]['price'], 'amount' => $model[0]['amount'], 'description' => $model[0]['description'], 'id' => $model[0]['id']];
+        $model = ['title' => $model['title'], 'price' => $model['price'], 'amount' => $model['amount'], 'description' => $model['description'], 'id' => $model['id']];
         return $this->execute($query, $model);
     }
 
@@ -68,8 +70,6 @@ class ProductRepository implements RepositoryInterface
                 $productModel['id' . $i] = $model[$i]['id'];
             }
         }
-
-//        $model = ['quantity' => $model[0]['quantity'], 'id' => $model[0]['id']];
 
         return $this->execute($query, $productModel);
     }

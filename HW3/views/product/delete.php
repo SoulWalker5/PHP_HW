@@ -1,7 +1,8 @@
 <div class="row mb-5">
     <h1>Delete product</h1>
 </div>
-<?php if (isset($product)) { ?>
+<form method="POST">
+    <?php if (isset($product)) { ?>
     <table class="table personal-task text-white">
         <thead>
         <tr>
@@ -19,15 +20,15 @@
         <tr>
             <?php foreach ($product as $attribute => $value) { ?>
                 <td style="padding-left: 15px" <?php if ($attribute == 'id') echo 'hidden' ?>>
-                    <?php echo $value; ?>
+                    <input type="text" name="<?php echo $attribute; ?>" value="<?php echo $value; ?>" disabled>
                 </td>
             <?php } ?>
         </tr>
         </tbody>
     </table>
-    <form method="POST">
-        <input class="btn btn-primary mt-4 signup bg-danger" type="submit" value="Delete" role="button"/>
-    </form>
-    <!--    <button class="btn btn-primary mt-4 signup bg-danger" type = "submit" >Delete</button >-->
+
+    <button class="btn btn-primary mt-4 signup bg-danger" type="submit">Delete</button>
+</form>
+<!--    <button class="btn btn-primary mt-4 signup bg-danger" type = "submit" >Delete</button >-->
 
 <?php } ?>
